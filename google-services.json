@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "990917650577",
+    "project_id": "topupmate-app4",
+    "storage_bucket": "topupmate-app4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990917650577:android:167c798f956b27e8e9f730",
+        "android_client_info": {
+          "package_name": "com.mypharouqtechapp.mypharouqtechapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyLNxqpxmD3tB_NlOtGwORqLXbQGdojEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990917650577:android:9a2d6aba2fb8357be9f730",
+        "android_client_info": {
+          "package_name": "com.primebiller.primebiller"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyLNxqpxmD3tB_NlOtGwORqLXbQGdojEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

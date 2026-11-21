@@ -1,0 +1,211 @@
+# 8. Transactions Tab & Receipt API
+
+How the **Transactions** / **History** tab loads data and how the **receipt** and **post-purchase status** screens hydrate details from the backend.
+
+**Implementation:** `src/store/apis/services.js`, `src/pages/global/History.jsx`, `src/components/History/HistoryItem.jsx`, `src/pages/recipts/AirtimeReceipt.jsx`, `src/pages/recipts/TransactionStatus.jsx`
+
+**Requires:** `Authorization: Bearer <token>`
+
+**Related:** [02-bills-services](./02-bills-services.md) (purchase flows that produce `transref`), [01-authentication](./01-authentication.md)
+
+## Base URL
+
+```
+https://cosmosdata.com.ng/apiserver/
+```
+
+---
+
+## Overview
+
+| User action | APIs used |
+|-------------|-----------|
+| Open **History** tab (`historyPage`) → header “Transactions” | `GET transactions?pagenumber=N` |
+| Tap a row → **Transaction Receipt** | Route params (list item) + `GET transaction-details?ref=` |
+| Complete a purchase → **Transaction Status** | Purchase response in params; optional `GET transaction-details?ref=` for PIN products |
+
+Note: The bottom tab title is **History** (`BottomTabs.jsx`); the screen header text is **Transactions** (`History.jsx`).
+
+---
+
+## 1. Transaction list (tabs / history)
+
+### GET `transactions?pagenumber=<page>`
+
+**Function:** `GetTransactions({ token, keyword, service, date, page })`
+
+**Actual request:** Only the page number is sent. The wrapper accepts `keyword`, `service`, and `date` but **does not append them to the URL**. Filtering is **100% client-side** in `History.jsx`.
+
+```text
+GET {BaseUrl}transactions?pagenumber=1
+Authorization: Bearer <token>
+```
+
+(Default HTTP method for `sendRequest` without `method` is GET — see `api.js`.)
+
+### Pagination behavior (app)
+
+| Behavior | Implementation |
+|----------|------------------|
+| Initial load | `page` starts at `1`, fetches first page |
+| On success | Appends `response` array to state, then increments `page` for the **next** fetch |
+| Load more | `onEndReached` on the list calls `getTransactions()` again |
+| Pull to refresh | Resets `page` to `1` and refetches (append still uses previous closure — see caveat below) |
+
+**Response (app expectation):**
+
+```json
+{
+  "status": "success",
+  "response": [ /* array of transaction objects */ ]
+}
+```
+
+If `response.length === 0`, the app returns without appending or incrementing page (stops infinite scroll growth for that session).
+
+### Client-side filters (not API query params)
+
+Applied in `History.jsx` after list data is loaded:
+
+| Filter | Logic |
+|--------|--------|
+| **Service dropdown** | Matches `servicename` (includes string). Special cases: “Airtime” excludes rows whose `servicename` is “airtime swap” or “airtime pin”; “Data” excludes “data pin”. |
+| **Date** | Compares `FormatDate(tran.date)` with selected date string |
+| **Search** | Matches `searchTerm` against `servicedesc`, `transref`, `amount`, `servicename` (lowercased) |
+
+### List row fields (used in UI)
+
+Each element of `response` is passed to `HistoryItem` and `airtimeReceipt` as `{ ...item, status }` where `status` is a **localized label** (“Success”, “Failed”, “Processing”) derived from numeric `item.status`:
+
+| Raw `status` | Color | Display label |
+|----------------|--------|----------------|
+| `"0"` | green | Success |
+| `"2"` | green | success |
+| `"1"` | red | Failed |
+| `"5"` | orange | Processing |
+
+**Fields referenced on each item:**
+
+| Field | Usage |
+|-------|--------|
+| `transref` | List `keyExtractor`, search, receipt ref |
+| `servicename` | Title, filters |
+| `servicedesc` | Subtitle, search |
+| `amount` | Formatted ₦ amount |
+| `date` | Display, date filter |
+| `status` | Badge (numeric/string as above) |
+
+---
+
+## 2. Transaction receipt (from history)
+
+**Route:** `airtimeReceipt` with `params: { data: { ...item, status } }` (`HistoryItem.jsx`)
+
+Despite the route name **airtimeReceipt**, this screen is the **generic transaction receipt** for any row in the transaction list.
+
+### GET `transaction-details?ref=<transref>`
+
+**Function:** `GetTransactionDetails({ token, ref })`
+
+**Implementation:** **`axios.get`** (not `sendRequest`)
+
+```text
+GET {BaseUrl}transaction-details?ref=<transref>
+Authorization: Bearer <token>
+```
+
+`ref` is taken from `data.ref` if present, else `data.transref` (`AirtimeReceipt.jsx`).
+
+### Receipt screen data merge
+
+```text
+details = transactionDetails ?? route.data
+```
+
+- **Initially:** Shows whatever came from the list row (`data`).
+- **After API success:** `setTransactionDetails(response.response)` overwrites/augments for fields returned by the server.
+
+**Fields used on the receipt UI** (from merged `details` / `data`):
+
+| Field | UI |
+|-------|-----|
+| `transref` / `ref` | Reference line |
+| `date` | Date & time (via `FormatDate` / `FormatTime`) |
+| `type` or `servicename` | Service |
+| `servicedesc` or `message` | Description |
+| `amount` | Amount (under “More Details”) |
+| `oldbal`, `newbal` | Balances (under “More Details”) |
+| `status` | Status chip (from original `data.status` for icon/color) |
+
+On mount the screen also calls **`GET profile`** (`GetUserDetails`) to refresh the logged-in user in Redux.
+
+**Actions:** Share (screenshot), Report → `report transaction screen` with `ref` and description, link to help codes.
+
+---
+
+## 3. Post-purchase “Transaction Status” screen
+
+**Route:** `transaction status` with `params: { data: ... }` after airtime, data, TV, electricity, pins, etc.
+
+This is **not** the same as the history receipt: it is optimized for **immediate feedback** (success/fail/processing) and product-specific fields (electricity token, exam pins, etc.).
+
+### Optional: same details API for PIN products
+
+**When:** `TransactionStatus.jsx` — if `data.type` is `exam-pin`, `airtime-pin`, or `data-pin`, and the route payload has **no** PIN/token yet, but a **ref** exists.
+
+```text
+GET {BaseUrl}transaction-details?ref=<ref>
+```
+
+On success: `transactionDetails = response.response` — used to resolve `pin` / `token` / nested `msg` shapes (many fallbacks).
+
+**Electricity:** token may appear under `token`, `msg.token`, `response.token`, etc.
+
+---
+
+## 4. Relation to other endpoints
+
+| Feature | Endpoint | Doc |
+|---------|----------|-----|
+| List purchased data pins | `GET datapin-tokens?pagenumber=1` | [02](./02-bills-services.md) |
+| List purchased airtime pins | `GET rechargecard-tokens?pagenumber=1` | [02](./02-bills-services.md) |
+| Single PIN purchase details | `GET datapin-tokens?ref=` / `GET rechargecard-tokens?ref=` | [02](./02-bills-services.md) |
+
+From **Transaction Status**, “View Pins” navigates to **airtime pin history** / **data pin history** (those screens use the token-list APIs above), not necessarily `transaction-details`.
+
+---
+
+## 5. Error handling differences
+
+| Call | Behavior on failure |
+|------|---------------------|
+| `GetTransactions` | Caught in `try/finally`; list may stay empty |
+| `GetTransactionDetails` (axios) | `AirtimeReceipt`: toast with error; `TransactionStatus`: silent catch for PIN fetch |
+
+---
+
+## 6. Endpoint summary
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `transactions?pagenumber=N` | Paginated transaction list |
+| GET | `transaction-details?ref=` | Full receipt / details for one transaction |
+
+---
+
+## 7. Implementation notes for backend / API consumers
+
+1. **List API does not support server-side filter** in the current app — only `pagenumber`. Any “filter by service/date/keyword” must be implemented client-side or the app must be updated to pass query params.
+2. **Details API uses axios** while the list uses `fetch` via `sendRequest` — same base URL and auth header; different client (session `401` handling may differ: `sendRequest` triggers global logout; axios errors are handled locally).
+3. **Refresh + pagination:** Consider verifying pull-to-refresh clears accumulated rows if you change the app; today it resets `page` to `1` but still **appends** to `transactions` on the next `getTransactions` unless the list is cleared (possible UX quirk).
+
+## Source reference
+
+```
+src/store/apis/services.js    → GetTransactions, GetTransactionDetails
+src/pages/global/History.jsx  → Transactions tab UI, filters, pagination
+src/components/History/HistoryItem.jsx → navigate to airtimeReceipt
+src/pages/recipts/AirtimeReceipt.jsx → receipt + details API
+src/pages/recipts/TransactionStatus.jsx → post-purchase + optional details API
+src/utilities/BottomTabs.jsx  → History tab registration
+```

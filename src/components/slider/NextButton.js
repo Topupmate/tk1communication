@@ -2,8 +2,8 @@ import { TouchableOpacity, StyleSheet, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 
 import MyIcon from '../global/MyIcon';
-import { SlidesList } from '../../constant/SliderList';
-import { Theme } from '../../constant/Theme';
+import { SlidesList } from '../../constants/SliderList';
+import { Theme } from '../../constants/Theme';
 import { useNavigation } from '@react-navigation/native';
 import MyButton from '../global/Mybutton';
 
@@ -38,7 +38,7 @@ const NextButton = ({ percentage, scrollRef }) => {
       {isLast === false ? (
         <TouchableOpacity style={styles.button} onPress={handleNextPress}>
           <MyIcon
-            name="ios-arrow-forward"
+            name="arrow-forward-outline"
             size={30}
             color={theme.palette.white}
           />
