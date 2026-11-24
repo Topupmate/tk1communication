@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Prime Biller",
-    "slug": "PrimeBiller",
-    "version": "9.0.0",
+    "name": "TK1 Communication",
+    "slug": "tk1communication",
+    "version": "3.0.0",
     "scheme": "primebiller",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,7 +27,7 @@
       },
       "googleServicesFile": "./google-services.json",
       "package": "com.primebiller.primebiller",
-      "versionCode": 9
+      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/favicon.png"
