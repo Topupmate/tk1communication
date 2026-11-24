@@ -4,8 +4,8 @@ import { Appearance } from 'react-native';
 export const Theme = () => {
   return {
     palette: {
-      primary: '#5540d9',
-      secondary: '#7740d9',
+      primary: '#ebff00',
+      secondary: '#900eca',
       white: '#fff',
       black: '#424242',
       red: '#c5221f',
@@ -40,6 +40,6 @@ export const Theme = () => {
     },
     font: {},
     os: Platform.OS,
-    appName: 'Prime Biller',
+    appName: 'TK1 Communication',
   };
 };
