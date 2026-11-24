@@ -3,7 +3,7 @@ import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import * as RootNavigation from './../../utilities/RootNavigation';
 import { createScopedDebugger, logFeatures } from '../../utils/debugScopes';
 
-export const BaseUrl = 'https://primebiller.com/apiserver/';
+export const BaseUrl = 'https://tk1communication.com.ng/apiserver/';
 // export const BaseUrl = 'https://sample.topupmate.com/apiserver/';
 
 const __apiDebug = createScopedDebugger('API');
