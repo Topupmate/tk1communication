@@ -17,7 +17,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.primebiller.primebiller",
+      "bundleIdentifier": "com.tk1communication.tk1communication",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
@@ -26,7 +26,7 @@
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
-      "package": "com.primebiller.primebiller",
+      "package": "com.tk1communication.tk1communication",
       "versionCode": 3
     },
     "web": {
@@ -34,7 +34,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "3450b39c-ca53-442a-8eab-1b9003426179"
+        "projectId": "de47b244-a6c5-4d6d-8452-4e7de4219262"
       }
     },
     "plugins": [
