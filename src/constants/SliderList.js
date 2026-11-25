@@ -4,21 +4,21 @@ export const SlidesList = [
     title: 'Welcome ',
     description:
       'Paying Bills Just Got Better, Welcome To The New African Way.',
-    image: require('../assets/slide1.png'),
+    image: require('../assets/slide1.jpg'),
   },
   {
     key: 2,
     title: 'Airtime & Data',
     description:
       'Instant Airtime Topup And Affordable Data Subscription To Keep You Connected With Friends And Business Partners.',
-    image: require('../assets/slide2.png'),
+    image: require('../assets/slide2.jpg'),
   },
   {
     key: 3,
     title: 'Bills Payment',
     description:
       'Easily subscribe for your Cable Tv and Electricity Meter. Convert Excess Airtime To Cash And Enjoy Our Range Of Other Services.',
-    image: require('../assets/slide3.png'),
+    image: require('../assets/slide3.jpg'),
   },
   {
     key: 4,
