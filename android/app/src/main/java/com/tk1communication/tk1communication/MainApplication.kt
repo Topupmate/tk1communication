@@ -1,4 +1,4 @@
-package com.primebiller.primebiller
+package com.tk1communication.tk1communication
 
 import android.app.Application
 import android.content.res.Configuration

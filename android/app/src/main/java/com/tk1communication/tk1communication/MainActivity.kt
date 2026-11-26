@@ -1,4 +1,4 @@
-package com.primebiller.primebiller
+package com.tk1communication.tk1communication
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

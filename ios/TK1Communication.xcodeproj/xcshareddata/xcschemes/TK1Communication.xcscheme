@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "PrimeBiller.app"
-               BlueprintName = "PrimeBiller"
-               ReferencedContainer = "container:PrimeBiller.xcodeproj">
+               BuildableName = "TK1Communication.app"
+               BlueprintName = "TK1Communication"
+               ReferencedContainer = "container:TK1Communication.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "PrimeBillerTests.xctest"
-               BlueprintName = "PrimeBillerTests"
-               ReferencedContainer = "container:PrimeBiller.xcodeproj">
+               BuildableName = "TK1CommunicationTests.xctest"
+               BlueprintName = "TK1CommunicationTests"
+               ReferencedContainer = "container:TK1Communication.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "PrimeBiller.app"
-            BlueprintName = "PrimeBiller"
-            ReferencedContainer = "container:PrimeBiller.xcodeproj">
+            BuildableName = "TK1Communication.app"
+            BlueprintName = "TK1Communication"
+            ReferencedContainer = "container:TK1Communication.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "PrimeBiller.app"
-            BlueprintName = "PrimeBiller"
-            ReferencedContainer = "container:PrimeBiller.xcodeproj">
+            BuildableName = "TK1Communication.app"
+            BlueprintName = "TK1Communication"
+            ReferencedContainer = "container:TK1Communication.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

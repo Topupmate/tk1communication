@@ -29,7 +29,8 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="exp+primebiller"/>
+        <data android:scheme="primebiller"/>
+        <data android:scheme="exp+tk1communication"/>
       </intent-filter>
     </activity>
   </application>
