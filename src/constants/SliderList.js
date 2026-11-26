@@ -20,11 +20,4 @@ export const SlidesList = [
       'Easily subscribe for your Cable Tv and Electricity Meter. Convert Excess Airtime To Cash And Enjoy Our Range Of Other Services.',
     image: require('../assets/slide3.jpg'),
   },
-  {
-    key: 4,
-    title: 'BUSINESS',
-    description:
-      'Create An Additional Source Of Income. Resell Our Services To Customers Or Refer Family And Friends And Get A Passive Commission.',
-    image: require('../assets/slide4.png'),
-  },
 ];
