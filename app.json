@@ -34,7 +34,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "de47b244-a6c5-4d6d-8452-4e7de4219262"
+        "projectId": "f36cd0bb-b07d-4404-8c3a-f053a653b0eb"
       }
     },
     "plugins": [
@@ -48,6 +48,7 @@
       ],
       "@react-native-firebase/app",
       "@react-native-firebase/messaging"
-    ]
+    ],
+    "owner": "codealumni"
   }
 }
