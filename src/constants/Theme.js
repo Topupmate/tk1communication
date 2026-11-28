@@ -4,7 +4,7 @@ import { Appearance } from 'react-native';
 export const Theme = () => {
   return {
     palette: {
-      primary: '#ebff00',
+      primary: '#B8860B',
       secondary: '#900eca',
       white: '#fff',
       black: '#424242',
